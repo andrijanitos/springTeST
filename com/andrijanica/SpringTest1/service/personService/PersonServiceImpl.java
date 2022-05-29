@@ -35,9 +35,9 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person createPerson(PersonCreateRequestDto personCreateRequestDto) {
-        Person person = new Person()
-                .setName(personCreateRequestDto.getName())
-                .setAge(personCreateRequestDto.getAge());
+        Person person = new Person();
+                person.setName(personCreateRequestDto.getName());
+                person.setAge(personCreateRequestDto.getAge());
 
         return personRepository.save(person);
     }
@@ -46,8 +46,8 @@ public class PersonServiceImpl implements PersonService {
     public Person updatePerson(PersonUpdateRequestDto personUpdateRequestDto) {
         Person person = getPersonById(personUpdateRequestDto.getId());
 
-        person.setName(personUpdateRequestDto.getName())
-                .setAge(personUpdateRequestDto.getAge());
+        person.setName(personUpdateRequestDto.getName());
+                person.setAge(personUpdateRequestDto.getAge());
 
         return personRepository.save(person);
     }

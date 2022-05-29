@@ -1,42 +1,28 @@
 package com.andrijanica.SpringTest1.security;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-/**
- * Represents security configuration.
- */
 @Configuration
-@EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.cors()
+    public void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .anyRequest().authenticated()
                 .and()
-                .csrf().disable()
-                .authorizeRequests().antMatchers().permitAll()
-                .anyRequest().permitAll();
+                .httpBasic();
     }
 
     @Override
-    public void configure(WebSecurity webSecurity) {
-        webSecurity.ignoring()
-                .antMatchers("/resources/",
-                        "/actuator/",
-                        "/static/",
-                        "/webjars/",
-                        "/v3/api-docs/**",
-                        "/configuration/ui",
-                        "/swagger-resources/",
-                        "/configuration/security",
-                        "/swagger-ui.html",
-                        "/webjars/",
-                        "/h2-console/**",
-                        "/swagger-ui/**");
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser("user")
+                .password("{noop}password") // Spring Security 5 requires specifying the password storage format
+                .roles("USER");
     }
+
 }

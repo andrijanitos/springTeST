@@ -7,20 +7,13 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Entity class representing Person model.
  */
 @Entity
 @Table(name = "person")
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
@@ -37,4 +30,25 @@ public class Person {
     @Column(name = "age")
     private Integer age;
 
+
+    @OneToOne
+    @JoinColumn(name="fk_author_id")
+    private Book book;
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
 }
